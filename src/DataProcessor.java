@@ -3,48 +3,54 @@ import java.util.Scanner;
 import java.util.Vector;
 public class DataProcessor {
 
+    private static boolean checkСoincidenced(String k, String v, final String title, String line){
+        return (k.equals(title) && v.equals(line.substring(0, line.indexOf(';'))));
+    }
+    private static String cutString(String line){
+        return line.substring(line.indexOf(';') + 1, line.length());
+    }
+    
     private static boolean findSubstrings(Vector<String> k, Vector<String> v, String line){
         int countCoincidences=0;
         for(int i=0; i<k.size();++i) {
-            if (k.get(i).equals("data_time") && v.get(i).equals(line.substring(0, line.indexOf(';')))){
+            if (checkСoincidenced(k.get(i),v.get(i),"data_time", line)){
                 ++countCoincidences;
-                line = line.substring(line.indexOf(';') + 1, line.length());
+                line = cutString(line);
                 continue;
             }
-            line = line.substring(line.indexOf(';') + 1, line.length());
-            if (k.get(i).equals("user_id") && v.get(i).equals(line.substring(0, line.indexOf(';')))){
+            line = cutString(line);
+            if (checkСoincidenced(k.get(i),v.get(i),"user_id", line)){
                 ++countCoincidences;
-                line = line.substring(line.indexOf(';') + 1, line.length());
+                line = cutString(line);
                 continue;
             }
-            line = line.substring(line.indexOf(';') + 1, line.length());
-            if (k.get(i).equals("service") && v.get(i).equals(line.substring(0, line.indexOf(';')))){
+            line = cutString(line);
+            if (checkСoincidenced(k.get(i),v.get(i),"service", line)){
                 ++countCoincidences;
-                line = line.substring(line.indexOf(';') + 1, line.length());
+                line = cutString(line);
                 continue;
             }
-            line = line.substring(line.indexOf(';') + 1, line.length());
-            if(k.get(i).equals("protocol") && v.get(i).equals(line.substring(0, line.indexOf(';')))){
+            line = cutString(line);
+            if(checkСoincidenced(k.get(i),v.get(i),"protocol", line)){
                 ++countCoincidences;
-                line = line.substring(line.indexOf(';') + 1, line.length());
+                line = cutString(line);
                 continue;
             }
-            line = line.substring(line.indexOf(';') + 1, line.length());
-            if(k.get(i).equals("upload") && v.get(i).equals(line.substring(0, line.indexOf(';')))){
+            line = cutString(line);
+            if(checkСoincidenced(k.get(i),v.get(i),"upload", line)){
                 ++countCoincidences;
-                line = line.substring(line.indexOf(';') + 1, line.length());
+                line = cutString(line);
                 continue;
             }
-            line = line.substring(line.indexOf(';') + 1, line.length());
-            if(k.get(i).equals("download") && v.get(i).equals(line.substring(0, line.indexOf(';')))){
+            line = cutString(line);
+            if(checkСoincidenced(k.get(i),v.get(i),"download", line)){
                 ++countCoincidences;
-                line = line.substring(line.indexOf(';') + 1, line.length());
+                line = cutString(line);
                 continue;
             }
             if(line.contains(k.get(i)+"\":\""+v.get(i))) ++countCoincidences;
         }
-        if(k.size()==countCoincidences) return true;
-        else return false;
+        return k.size()==countCoincidences;
     }
     public static void main(String[]  args){
         Vector<String> keys = new Vector();
